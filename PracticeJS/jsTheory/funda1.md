@@ -1,8 +1,8 @@
-JavaScript:
-"JS is high level, object-oriented, multi-paradigm programing language"
-"It allows dynamic effects and web applications in the browsers"
+JavaScript:  
+"JS is high level, object-oriented, multi-paradigm programing language"  
+"It allows dynamic effects and web applications in the browsers"  
 "JS has dnamic typing i.e. we do not have to manually define the data type 
- of the value stored in a variable.Instead, data types are determined automatically"
+ of the value stored in a variable.Instead, data types are determined automatically"  
 
 
 Adding JavaScript in code:
