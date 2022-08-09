@@ -1,0 +1,1 @@
+destructuring the array will be by [] and for objects it will be by {}

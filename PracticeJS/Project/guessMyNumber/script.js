@@ -27,29 +27,42 @@ document.querySelector(".check").addEventListener('click', function(){
             highScore=score
             document.querySelector(".highscore").textContent=highScore
         }
-
-    }else if(guess>randomNumber){
-        if(score>1){
-            document.querySelector('.message').textContent= "👆 Too HIGH"
-            score-=1
-            document.querySelector('.score').textContent=score
-
-        }else{
-            document.querySelector('.message').textContent= "You loose 😞"
-            document.querySelector('.score').textContent=0
-        }
         
 
-    }else if(guess<randomNumber){
+    }else if(guess!=randomNumber){
         if(score>1){
-            document.querySelector('.message').textContent= "👇 Too Low"
+            guess>randomNumber? document.querySelector('.message').textContent= "👆 Too HIGH":document.querySelector('.message').textContent= "👇 Too Low";
             score-=1
             document.querySelector('.score').textContent=score
+
         }else{
             document.querySelector('.message').textContent= "You loose 😞"
             document.querySelector('.score').textContent=0
         }
+
     }
+    // else if(guess>randomNumber){
+    //     if(score>1){
+    //         document.querySelector('.message').textContent= "👆 Too HIGH"
+    //         score-=1
+    //         document.querySelector('.score').textContent=score
+
+    //     }else{
+    //         document.querySelector('.message').textContent= "You loose 😞"
+    //         document.querySelector('.score').textContent=0
+    //     }
+        
+
+    // }else if(guess<randomNumber){
+    //     if(score>1){
+    //         document.querySelector('.message').textContent= "👇 Too Low"
+    //         score-=1
+    //         document.querySelector('.score').textContent=score
+    //     }else{
+    //         document.querySelector('.message').textContent= "You loose 😞"
+    //         document.querySelector('.score').textContent=0
+    //     }
+    // }
     
 
 })
