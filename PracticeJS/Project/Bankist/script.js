@@ -94,14 +94,14 @@ const createUserName = function (accs) {
 createUserName(accounts);
 
 //calculating and displaying the total balance
-const calcDisplayBalance = function (movements) {
-  const bal = movements.reduce((a, c) => {
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((a, c) => {
     return a + c;
   }, 0);
   // console.log(bal);
-  labelBalance.textContent = `${bal}€`;
+  labelBalance.textContent = `${acc.balance}€`;
 };
-calcDisplayBalance(account1.movements);
+// calcDisplayBalance(account1.movements);
 
 //calculating and displaying the incommings, outgoing and intrest
 const calcDisplaySummary = function (acc) {
@@ -118,49 +118,56 @@ const calcDisplaySummary = function (acc) {
     })
     .reduce((acc, cur) => acc + cur);
   labelSumOut.textContent = `${Math.abs(outBal)}€`;
-//intrest is 1.1% and only intrest is calulated which is greater than or equal to 1
+  //intrest is 1.1% and only intrest is calulated which is greater than or equal to 1
   const intrest = acc.movements
     .filter(mov => mov > 0)
     .map(diposit => (diposit * acc.interestRate) / 100)
-    .filter(int=>int>=1)
+    .filter(int => int >= 1)
     .reduce((a, c) => a + c);
   labelSumInterest.textContent = `${intrest.toFixed(2)}€`;
 };
 // calcDisplaySummary(account1.movements);
 
-
-//implimenting the login
-let currentAccount
-btnLogin.addEventListener('click', function(e){
-  //prevents from refreshing the page
-  e.preventDefault()
-  
-  //check for the username and store the account
-  currentAccount= accounts.find(acc=>acc.userName===inputLoginUsername.value)
-
-if(currentAccount?.pin===Number(inputLoginPin.value)){
-  //resetting the login and pin and bluring the cursur in the login Pin
-  inputLoginUsername.value=''
-  inputLoginPin.value=''
-  inputLoginPin.blur()
-
-
-  //display the ui
-  containerApp.style.opacity=100
-
-  //display Welcome message
-  labelWelcome.textContent=`Welcome Back ${currentAccount.owner.split(' ')[0]}`
-
+//update the ui
+const updateUI= function(acc){
   //display movements
-  dispalyMovents(currentAccount.movements)
+  dispalyMovents(acc.movements);
 
   //display balance
-  calcDisplayBalance(currentAccount.movements)
+  calcDisplayBalance(acc);
 
   //display summary
-  calcDisplaySummary(currentAccount)
-
+  calcDisplaySummary(acc);
 }
+
+//implimenting the login
+let currentAccount;
+btnLogin.addEventListener('click', function (e) {
+  //prevents from refreshing the page
+  e.preventDefault();
+
+  //check for the username and store the account
+  currentAccount = accounts.find(
+    acc => acc.userName === inputLoginUsername.value
+  );
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //resetting the login and pin and bluring the cursur in the login Pin
+    inputLoginUsername.value = '';
+    inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    //display the ui
+    containerApp.style.opacity = 100;
+
+    //display Welcome message
+    labelWelcome.textContent = `Welcome Back ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+     //update UI
+    updateUI(currentAccount)
+    
+  }
   /*
 //  this is also same as the previous approch to chcek the account exits and also validate the account
   if(currentAccount && currentAccount.pin===Number(inputLoginPin.value)){
@@ -168,6 +175,29 @@ if(currentAccount?.pin===Number(inputLoginPin.value)){
   }
 
 */
-})
+});
 
+//adding the money transfer
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault(); // prevents from reloading the page
 
+  const recieverAccount = accounts.find(acc => {
+    return acc.userName === inputTransferTo.value;
+  });
+  const amount = Number(inputTransferAmount.value);
+
+//RESET the transfer account and balance field form
+  inputTransferAmount.value=inputTransferTo.value=''
+
+  if (recieverAccount && 
+    amount <= currentAccount.balance && 
+    amount > 0 &&
+    recieverAccount?.userName !== currentAccount.userName) {
+      recieverAccount.movements.push(amount)
+      currentAccount.movements.push(-amount)
+
+      //update UI
+      updateUI(currentAccount)
+  }
+  console.log('invalid')
+});
