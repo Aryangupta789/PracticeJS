@@ -201,3 +201,25 @@ btnTransfer.addEventListener('click', function (e) {
   }
   console.log('invalid')
 });
+
+//implementing the close account
+btnClose.addEventListener('click', function(e){
+  e.preventDefault()
+
+  const confUserInd=accounts.findIndex(acc=>acc.userName=== inputCloseUsername.value)
+  const confPin= Number(inputClosePin.value)
+  if(inputCloseUsername.value===currentAccount.userName &&
+    confPin===currentAccount.pin){
+      //deleteing the current user
+      accounts.splice(confUserInd,1)
+      //hiding UI
+      containerApp.style.opacity = 0;
+      //reseting the welcome message
+      labelWelcome.textContent='Log in to get started'
+
+  }else{
+    console.log('Invalid')
+  }
+})
+
+//Request Loan
