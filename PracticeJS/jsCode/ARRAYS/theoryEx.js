@@ -132,3 +132,21 @@ console.log(avg)
 
 const firstNegative= movements.find(mov=>mov<0)
 console.log(firstNegative)
+
+//findIndex method
+//it returns the index of the elemnt and not the element as in the find method
+
+const ind70= movements.findIndex(mov=> mov===70)
+console.log(ind70)
+
+//includes method
+//this chcek if the elemnt is present in the array by returing true
+//it only checks the quality
+
+console.log(movements.includes(70))
+
+//some
+//this checks the expression as it is satisfying any array elemnts
+//it checks the condition
+
+console.log(movements.some(mov=>mov>100))   //checks if any of the value is greater than 100 

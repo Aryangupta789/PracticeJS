@@ -223,3 +223,14 @@ btnClose.addEventListener('click', function(e){
 })
 
 //Request Loan
+//bank only approves the loan if any deposit is more than 10% of the requested money
+btnLoan.addEventListener('click',function(e){
+  e.preventDefault()
+
+  const loan=inputLoanAmount.value
+  if(currentAccount.movements.some(mov=>mov>0.1*loan)){
+    currentAccount.movements.push(loan)
+
+    updateUI(currentAccount)
+  }
+})
