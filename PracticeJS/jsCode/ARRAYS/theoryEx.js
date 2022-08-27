@@ -150,3 +150,46 @@ console.log(movements.includes(70))
 //it checks the condition
 
 console.log(movements.some(mov=>mov>100))   //checks if any of the value is greater than 100 
+
+
+//every method
+// this is similar to some method but it will only return true if all the elements satisfy the given condition
+console.log(movements.every(mov=>mov>0))
+
+
+//seperate callback FUNCTIONS
+const deposites = mov=> mov>0
+console.log(movements.some(deposites))
+console.log(movements.every(deposites))
+console.log(movements.filter(deposites))
+
+//flat and flatmap Methods
+//it changes the nested array to simple array
+
+const arr1= [[1,2,3],4,[5,6],[7,8]]
+console.log(arr1.flat())
+
+const arr4= [1,[2,3,[4,5,6]],7,8]
+console.log(arr4.flat(2))
+
+//flatmap is the combination of flat and map method clubed together
+
+//sort
+//sorts the  arrays in accending order but by default it consider arguments as strings i.e does not work if the arrays contains numbers
+//it mutates the original array
+
+const unSorted=['Sumit', 'Kishan', 'Anjila']
+console.log(unSorted.sort())
+console.log(movements.sort())   //gives not correct result 
+// console.log(movements.sort(function(a,b){
+//     if(a>b) return 1;
+//     if(a<b) return -1;
+// })) // for assending order
+console.log(movements.sort(function(a,b){ return a-b}))  //if a is greater it will return negative number
+
+
+// console.log(movements.sort(function(a,b){
+//     if(a>b) return -1;
+//     if(a<b) return 1;
+// })) // for decending order
+console.log(movements.sort(function(a,b){ return b-a}))  //if b is greater it will return negative number
