@@ -193,3 +193,21 @@ console.log(movements.sort(function(a,b){ return a-b}))  //if a is greater it wi
 //     if(a<b) return 1;
 // })) // for decending order
 console.log(movements.sort(function(a,b){ return b-a}))  //if b is greater it will return negative number
+
+
+//fill method
+const x = new Array(7)  //it creates an empty array with 7  elments
+// console.log(x.map(()=>7))  it will not change all the elemnts in the array as 7
+
+x.fill(7)  // this will fill all the elements as 7
+console.log(x)
+
+// we can also specify that from where to where we ahev to fill the elemnts Example
+x.fill(9, 3,5)  //it says fill 9 from index number 3 to index number 4(5-1)
+console.log(x)
+
+
+//Array.from function
+const y=Array.from({length: 7},()=>1 )   //it will create an array with all the terms as 1, here it take the map function as an callback function
+
+console.log(y)
