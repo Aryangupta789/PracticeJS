@@ -211,3 +211,9 @@ console.log(x)
 const y=Array.from({length: 7},()=>1 )   //it will create an array with all the terms as 1, here it take the map function as an callback function
 
 console.log(y)
+
+const z= Array.from({length: 6}, (_,i)=>i+1)
+console.log(z)
+
+const diceRoll= Array.from({length:100}, (cr, i)=>Math.floor(Math.random()*6 +1))
+console.log(diceRoll)

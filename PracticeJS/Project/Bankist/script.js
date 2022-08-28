@@ -246,3 +246,43 @@ btnSort.addEventListener('click', function(e){
   sorted=!sorted
 
 })
+
+//EXTRA: just for use of Array.from 
+//if we want to take the sum of arrays which are currently in the ui and not from the database
+
+labelBalance.addEventListener('click', function(){
+  const movemensUI= Array.from( document.querySelectorAll('.movements__value'),
+  el=>Number(el.textContent.replace('€', '')));
+  console.log(movemensUI)
+  
+})
+
+//find the total amount deposited in all the accounts
+let sum=0
+const totalBalance= accounts.forEach(acc=>{
+  sum+=acc.movements.filter(mov=>mov>0).reduce((a,c)=> a+c)
+})
+console.log(sum)
+//another approch
+const totalBalance1= accounts.flatMap(acc=>acc.movements).filter(mov=>mov>0).reduce((a,c)=>a+c,0)
+console.log(totalBalance1)
+
+//find no of deposites which are more han 1000
+const depo1000= accounts.flatMap(acc=> acc.movements).filter(mov=>mov>1000).length
+console.log(depo1000)
+
+//second approch
+const depo1000_= accounts.flatMap(acc=> acc.movements).reduce((count,curr)=>curr>1000?count+1:count,0)
+console.log(depo1000_)
+
+
+//return an object which is ahving the toatl sum of all the deposites and all the withdraws from all the accounts
+
+const objDepWith= accounts
+.flatMap(acc=>acc.movements)
+.reduce((acc, cur)=>{
+  acc[cur>0?'deposite':'withdraw']+=cur
+  return acc
+},{'deposite':0,'withdraw':0 })
+
+console.log(objDepWith)
