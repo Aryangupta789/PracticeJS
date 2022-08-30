@@ -109,23 +109,23 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
-const formatDate=function(date){
+const formatDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
-  Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
-  const daysPased= calcDaysPassed(new Date(), date)
-  console.log(daysPased)
-  if(daysPased==0) return 'Today'
-  if(daysPased==1) return 'Yesterday'
-  if(daysPased<=7) return `${daysPased} days ago`
-  else{
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    return  `${day}/${month}/${year}`;
+  const daysPased = calcDaysPassed(new Date(), date);
+  // console.log(daysPased)
+  if (daysPased == 0) return 'Today';
+  if (daysPased == 1) return 'Yesterday';
+  if (daysPased <= 7) return `${daysPased} days ago`;
+  else {
+    // const day = `${date.getDate()}`.padStart(2, 0);
+    // const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    // const year = date.getFullYear();
+    // return `${day}/${month}/${year}`;
+    return new Intl.DateTimeFormat(locale.format(date))
   }
-
-}
+};
 
 const dispalyMovents = function (acc, sort = false) {
   containerMovements.innerHTML = '';
@@ -135,7 +135,7 @@ const dispalyMovents = function (acc, sort = false) {
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const date = new Date(acc.movementsDates[i]);
-    const displayDate=formatDate(date)
+    const displayDate = formatDate(date, acc.locale);
 
     const html = `
       <div class="movements__row">
@@ -209,15 +209,30 @@ const updateUI = function (acc) {
   //display summary
   calcDisplaySummary(acc);
 };
+let currentAccount;
+///Fake Login
 
-// ///Fake Login
-// 
-// currentAccount = account1;
-// updateUI(currentAccount);
-// containerApp.style.opacity = 100;
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
+
+// Experimenting with the internationalisation API
+const now = new Date();
+const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+  day: 'numeric',
+  month: 'numeric', //+> inplace of numeric we can also write 'long', '2-digit',
+  year: '2-digit',
+  weekday: 'long',
+};
+const locale = navigator.language; //this will tell the language which is using in the web browser, so in place of  'en-US', we can use locale and can set the users language
+// console.log(locale);
+
+labelDate.textContent = new Intl.DateTimeFormat('en-US', options).format(now);
 
 //implimenting the login
-let currentAccount;
+
 btnLogin.addEventListener('click', function (e) {
   //prevents from refreshing the page
   e.preventDefault();
@@ -241,14 +256,19 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     }`;
     //adding the time
-    let now = new Date();
-    const day = `${now.getDate()}`.padStart(2, 0);
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2,0);
-    const min = `${now.getMinutes()}`.padStart(2,0);
+    const now = new Date();
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: '2-digit',
+    };
+    // const locale = navigator.language;
 
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(
+      now
+    );
     //update UI
     updateUI(currentAccount);
   }
@@ -281,10 +301,10 @@ btnTransfer.addEventListener('click', function (e) {
   ) {
     recieverAccount.movements.push(amount);
     currentAccount.movements.push(-amount);
-    
+
     //add transfer Date
     currentAccount.movementsDates.push(new Date().toISOString());
-    recieverAccount.movementsDates.push(new Date().toISOString())
+    recieverAccount.movementsDates.push(new Date().toISOString());
 
     //update UI
     updateUI(currentAccount);
@@ -325,7 +345,7 @@ btnLoan.addEventListener('click', function (e) {
     currentAccount.movements.push(loan);
     //add transfer Date
     currentAccount.movementsDates.push(new Date().toISOString());
-    
+
     //update UI
     updateUI(currentAccount);
   }
