@@ -16,10 +16,10 @@ const account1 = {
     '2019-12-23T07:42:02.383Z',
     '2020-01-28T09:15:04.904Z',
     '2020-04-01T10:17:24.185Z',
-    '2020-05-08T14:11:59.604Z',
-    '2020-07-26T17:01:17.194Z',
-    '2020-07-28T23:36:17.929Z',
-    '2020-08-01T10:51:36.790Z',
+    '2022-08-15T14:11:59.604Z',
+    '2022-08-26T17:01:17.194Z',
+    '2022-08-30T08:36:17.929Z',
+    '2022-08-29T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -109,6 +109,23 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+const formatDate=function(date){
+  const calcDaysPassed = (date1, date2) =>
+  Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const daysPased= calcDaysPassed(new Date(), date)
+  console.log(daysPased)
+  if(daysPased==0) return 'Today'
+  if(daysPased==1) return 'Yesterday'
+  if(daysPased<=7) return `${daysPased} days ago`
+  else{
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    return  `${day}/${month}/${year}`;
+  }
+
+}
 
 const dispalyMovents = function (acc, sort = false) {
   containerMovements.innerHTML = '';
@@ -118,10 +135,7 @@ const dispalyMovents = function (acc, sort = false) {
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate=formatDate(date)
 
     const html = `
       <div class="movements__row">
