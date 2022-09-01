@@ -6,7 +6,7 @@
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Aryan Gupta',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
@@ -123,9 +123,17 @@ const formatDate = function (date, locale) {
     // const month = `${date.getMonth() + 1}`.padStart(2, 0);
     // const year = date.getFullYear();
     // return `${day}/${month}/${year}`;
-    return new Intl.DateTimeFormat(locale.format(date))
+    return new Intl.DateTimeFormat(locale).format(date)
   }
 };
+
+//format numbers by intl
+const formatCur=function(value, locale, currency){
+  return new Intl.NumberFormat(locale, {
+    style:'currency',
+    currency:currency
+  }).format(value)
+}
 
 const dispalyMovents = function (acc, sort = false) {
   containerMovements.innerHTML = '';
@@ -136,6 +144,7 @@ const dispalyMovents = function (acc, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const date = new Date(acc.movementsDates[i]);
     const displayDate = formatDate(date, acc.locale);
+    const formattedCur=formatCur(mov, acc.locale, acc.currency)
 
     const html = `
       <div class="movements__row">
@@ -143,7 +152,7 @@ const dispalyMovents = function (acc, sort = false) {
       i + 1
     } ${type} </div>
         <div class="movements__date">${displayDate} </div>
-          <div class="movements__value">${mov}€</div>
+          <div class="movements__value">${formattedCur}</div>
         </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -169,7 +178,7 @@ const calcDisplayBalance = function (acc) {
     return a + c;
   }, 0);
   // console.log(bal);
-  labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${formatCur(acc.balance, acc.locale, acc.currency)}`;
 };
 // calcDisplayBalance(account1.movements);
 
@@ -180,21 +189,21 @@ const calcDisplaySummary = function (acc) {
       return mov > 0;
     })
     .reduce((acc, cur) => acc + cur);
-  labelSumIn.textContent = `${inBal}€`;
+  labelSumIn.textContent = `${formatCur(inBal, acc.locale, acc.currency)}`;
 
   const outBal = acc.movements
     .filter(mov => {
       return mov < 0;
     })
     .reduce((acc, cur) => acc + cur);
-  labelSumOut.textContent = `${Math.abs(outBal)}€`;
+  labelSumOut.textContent = `${formatCur(Math.abs(outBal), acc.locale, acc.currency)}`;
   //intrest is 1.1% and only intrest is calulated which is greater than or equal to 1
   const intrest = acc.movements
     .filter(mov => mov > 0)
     .map(diposit => (diposit * acc.interestRate) / 100)
     .filter(int => int >= 1)
     .reduce((a, c) => a + c);
-  labelSumInterest.textContent = `${intrest.toFixed(2)}€`;
+  labelSumInterest.textContent = `${formatCur(intrest.toFixed(2), acc.locale, acc.currency)}`;
 };
 // calcDisplaySummary(account1.movements);
 
