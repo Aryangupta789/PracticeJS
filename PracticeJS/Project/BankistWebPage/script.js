@@ -197,3 +197,37 @@ h1.addEventListener('mouseenter',alth1)
 setTimeout(()=>{
   return h1.removeEventListener('mouseenter',alth1)
 }, 3000)     //it will remove the event listener after 3 seconds
+
+
+//bubbling : When an event happens on an element, it first runs the handlers on it, then on its parent, then all the way up on other ancestors.i.e the events propogates in the upward direction of the dom. hince called bubbling up
+//capturing: here the events propogates the the downward direction of the dom.
+
+const randomInt= (min, max)=>{
+  return Math.floor(Math.random()*(max-min+1)+min)
+}
+const randomColor=()=>`rgb(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)})`
+
+document.querySelector('.nav__link').addEventListener('click', function(e){
+  this.style.backgroundColor=  randomColor()
+  console.log('Link', e.target, e.currentTarget)
+  console.log(e.currentTarget==this)
+    //stop propogation
+    e.stopPropagation()
+})
+
+document.querySelector('.nav__links').addEventListener('click', function(e){
+  this.style.backgroundColor=  randomColor()
+  console.log('CONTAINER', e.target, e.currentTarget)
+  console.log(e.currentTarget==this)
+  
+
+})
+
+document.querySelector('.nav').addEventListener('click', function(e){
+  this.style.backgroundColor=  randomColor()
+  console.log('NAV', e.target, e.currentTarget)
+  console.log(e.currentTarget==this)
+})
+
+//by default the evenntListner is in bubbling phase that is it does not consider the capturing phase but we can define it by giving the third boolean parameter to the addEventListener method as true.(by default it is false)
+
