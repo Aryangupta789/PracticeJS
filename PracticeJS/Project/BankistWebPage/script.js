@@ -9,7 +9,7 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 
 const openModal = function (e) {
-  e.preventDefault()   //to stop the default behaviour of a link( it move to top as soon as the link is clicked, by default)
+  e.preventDefault(); //to stop the default behaviour of a link( it move to top as soon as the link is clicked, by default)
   modal.classList.remove('hidden');
   overlay.classList.remove('hidden');
 };
@@ -19,7 +19,7 @@ const closeModal = function () {
   overlay.classList.add('hidden');
 };
 
-btnsOpenModal.forEach(btn=> btn.addEventListener('click', openModal));
+btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
 
 // for (let i = 0; i < btnsOpenModal.length; i++)
 //   btnsOpenModal[i].addEventListener('click', openModal);
@@ -33,8 +33,38 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+//smooth scrolling
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
 
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect(); //gives info about to currrent web page view size(view port), here aim is to find the coordinates of the destination position(section-1)
+  //here all the values are relative to the top-left corner of the screen
+  console.log(s1coords);
 
+  console.log(e.target.getBoundingClientRect()); // this will give the coordinate of the button which we clicked
+  console.log('current scroll(x/y): ', window.pageXOffset, window.pageYOffset); // it will tell how much page is being scrolled
+
+  // //scrolling
+  // window.scrollTo(
+  //   s1coords.left + window.pageXOffset,
+  //   s1coords.top + window.pageYOffset
+  // );
+  //scrollTo(x-coOrdinates, y-coOrdinates)  => it will scroll to x and y coordinates specified
+  
+//  // smooth scrolling
+//   window.scrollTo({
+//     left: s1coords.left+window.pageXOffset,
+//     top:s1coords.top + window.pageYOffset,
+//     behavior: 'smooth'
+//   })
+
+  //modern method for smooth scrolling: but mostly works in the modern web browsers
+  section1.scrollIntoView({behavior:'smooth'})
+
+});
+
+/*
 //////////////////////////////////////
 /// selecting the document
 console.log(document.documentElement)    //selcting the whole document
@@ -64,7 +94,8 @@ console.log(buttons)
 
   4.  "afterend"   :> after the element. only valid if the elemnt is in the DOM tree and has parent element
 => text  can be string to be parsed in as HTML or XML
-*/  
+*/
+/*
 const message= document.createElement('div')     //here we have just created the dom elemnt but it is still not present in the page, we need to manually add this to the page
 message.classList.add('cookie-message');
 // message.textContent= 'We use cookies for improved functionality and analytics.'
@@ -134,3 +165,4 @@ logo.classList.contains('c')
 
 //don't use these, but can work; since these can completely overwite the class name
 // logo.className='jonas'
+*/
