@@ -110,6 +110,25 @@ tabContainer.addEventListener('click', function(e){
 
 })
 
+//menu fade animation
+const nav= document.querySelector('.nav')
+
+const handleHover= function(e){
+  const link= e.target
+  const siblings= link.closest('.nav').querySelectorAll('.nav__link')
+  const logo= link.closest('.nav').querySelector('img');
+
+  siblings.forEach(el=>{
+    if(el !==link) el.style.opacity=this;
+  })
+  logo.style.opacity=this;
+}
+
+//passing the arguments into the handlers
+nav.addEventListener('mouseover',handleHover.bind(0.5))
+nav.addEventListener('mouseout',handleHover.bind(1))
+
+
 /*
 //////////////////////////////////////
 /// selecting the document
