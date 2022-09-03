@@ -51,17 +51,16 @@ btnScrollTo.addEventListener('click', function (e) {
   //   s1coords.top + window.pageYOffset
   // );
   //scrollTo(x-coOrdinates, y-coOrdinates)  => it will scroll to x and y coordinates specified
-  
-//  // smooth scrolling
-//   window.scrollTo({
-//     left: s1coords.left+window.pageXOffset,
-//     top:s1coords.top + window.pageYOffset,
-//     behavior: 'smooth'
-//   })
+
+  //  // smooth scrolling
+  //   window.scrollTo({
+  //     left: s1coords.left+window.pageXOffset,
+  //     top:s1coords.top + window.pageYOffset,
+  //     behavior: 'smooth'
+  //   })
 
   //modern method for smooth scrolling: but mostly works in the modern web browsers
-  section1.scrollIntoView({behavior:'smooth'})
-
+  section1.scrollIntoView({ behavior: 'smooth' });
 });
 
 /*
@@ -166,3 +165,35 @@ logo.classList.contains('c')
 //don't use these, but can work; since these can completely overwite the class name
 // logo.className='jonas'
 */
+
+//Events and events Handlers
+//Events are actions or occurrences that happen in the system you are programming, which the system tells you about so your code can react to them. Example 'click'
+// 📕Note: Web events are not part of the core JavaScript language — they are defined as part of the APIs built into the browser.
+
+const h1= document.querySelector("h1")
+// //their are 3 methods to add  a event listener
+// // 1.by using the addEventListener()  =>which is most comman and now used
+// h1.addEventListener('mouseenter', function(){
+//   alert("addEventListener: reading Heading")
+// })
+
+// // 2.by using the on-property like onclick, or onmouseenter, this method was used before
+// h1.onmouseenter= function(){
+//   alert("addEventListener: reading Heading")
+// }
+
+// //3. inline event handelers, (DONT USE THIS) these are directly added in the html code like
+// //  <h1 mouseenter="alert("addEventListener: reading Heading")"></h1> 
+
+//if want to listen to the event only one then :
+const alth1= function(){
+  alert("addEventListener: reading Heading")
+
+  // h1.removeEventListener('mouseenter',alth1)   //=>this will remove the event listener as soon as it is listen one time
+}
+
+h1.addEventListener('mouseenter',alth1)
+
+setTimeout(()=>{
+  return h1.removeEventListener('mouseenter',alth1)
+}, 3000)     //it will remove the event listener after 3 seconds
