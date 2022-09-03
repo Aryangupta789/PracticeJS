@@ -62,6 +62,30 @@ btnScrollTo.addEventListener('click', function (e) {
   //modern method for smooth scrolling: but mostly works in the modern web browsers
   section1.scrollIntoView({ behavior: 'smooth' });
 });
+// navigation
+// document.querySelectorAll('.nav__link').forEach(el=>{
+//   el.addEventListener('click', function(e){
+//     e.preventDefault()
+//     const id= this.getAttribute('href');
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' })
+
+//   })
+// })
+
+
+//by Event Deligations
+//1.Add event listener to the common parent elemnt
+// 2.Determine which elemnt originated the event
+
+document.querySelector('.nav__links').addEventListener('click', function(e){
+  e.preventDefault();
+
+  //matching strategy
+  if(e.target.classList.contains('nav__link')){
+    const id= e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' })
+  }
+})
 
 /*
 //////////////////////////////////////
@@ -165,7 +189,7 @@ logo.classList.contains('c')
 //don't use these, but can work; since these can completely overwite the class name
 // logo.className='jonas'
 */
-
+/*
 //Events and events Handlers
 //Events are actions or occurrences that happen in the system you are programming, which the system tells you about so your code can react to them. Example 'click'
 // 📕Note: Web events are not part of the core JavaScript language — they are defined as part of the APIs built into the browser.
@@ -231,3 +255,4 @@ document.querySelector('.nav').addEventListener('click', function(e){
 
 //by default the evenntListner is in bubbling phase that is it does not consider the capturing phase but we can define it by giving the third boolean parameter to the addEventListener method as true.(by default it is false)
 
+*/
