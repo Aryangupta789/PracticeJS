@@ -154,7 +154,27 @@ const interObser= new IntersectionObserver(stickyNav, {
 });
 interObser.observe(header)
 
+//reveling the elements on scrolling
+const allSection= document.querySelectorAll('.section');
 
+const revelSec= function(entries, observer){
+  const [entry]= entries
+  console.log(entry)
+
+  if(!entry.isIntersecting) return;
+
+  entry.target.classList.remove('section--hidden')
+  sectionObserver.unobserve(entry.target)
+}
+const sectionObserver= new IntersectionObserver(revelSec, {
+  root: null,
+  threshold: 0.15
+})
+allSection.forEach(sec=>{
+  
+  sectionObserver.observe(sec)
+  sec.classList.add('section--hidden')
+})
 
 /*
 //////////////////////////////////////
